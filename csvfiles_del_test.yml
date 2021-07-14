@@ -1,0 +1,5 @@
+- hosts: localhost
+  gather_facts: fales
+  connection: local
+  roles:
+    - csvfiles_delete_test
