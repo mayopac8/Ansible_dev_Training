@@ -1,3 +1,5 @@
 ---
 import_tasks: testfiles_csv_get_filename.yml
+import_tasks: check_testfile_akio_csv.yml
+import_tasks: check_testfile_jason_csv.yml
 import_tasks: setup_task.yml
