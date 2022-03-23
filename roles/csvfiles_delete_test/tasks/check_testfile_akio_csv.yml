@@ -4,7 +4,7 @@
     path: "{{ item | replace(playbook_dir + '/', '') }}"
   register: _res
   with_fileglob:
-    - "files/release_host_*.csv"
+    - "files/testfifle_akio*.csv"
 
 - name: debug read_csv
   debug:
