@@ -1,0 +1,36 @@
+---
+- name: when fact_csv exists
+  block:
+  - name: delete csv file
+     file:
+       path: "{{ item }}"
+       stete: absent
+    with_items: "{{ fact_csv }}"
+
+  - name: push git branch
+    shell: |
+      git add .
+      git -c user.name='{{ user }}' -c user.email='' commit -m 'update for deleting unnecessary csv files'
+      git push --set-upstream origin {{ branch }}
+    args:
+      chdir: "{{ target_dir }}/{{ project }}"
+    register: res_result
+
+  - name: debug
+    debug:
+      msg: "{{ res_result }}"
+  - name: create merge request
+    uri:
+      url: "{{ gitlab_url }}/api/v4/projects/{{ project_id }}/merge_requests"
+      method: POST
+      headers:
+        PRIVETE-TOKEN: "{{ SSG_GitlabAccessToken }}"
+      body:
+        source_branch: "{{ branch }}"
+        target_branch: master
+        title: "delete unnecessary csv files"
+        assignee_ids: "{{ assignee_ids | int }}"
+      status_code: [200,201]
+      validate_certs: false
+  
+  when: fact_csv is defined and fact_csv | length > 0
