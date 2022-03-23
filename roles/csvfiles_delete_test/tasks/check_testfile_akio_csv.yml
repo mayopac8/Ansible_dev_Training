@@ -1,5 +1,5 @@
 ---
-- name: read release_host_*.csv
+- name: read testfifle_akio_*.csv
   read_csv:
     path: "{{ item | replace(playbook_dir + '/', '') }}"
   register: _res
