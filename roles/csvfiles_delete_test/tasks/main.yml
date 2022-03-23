@@ -1,2 +1,3 @@
 ---
 import_tasks: testfiles_csv_get_filename.yml
+import_tasks: setup_task.yml
