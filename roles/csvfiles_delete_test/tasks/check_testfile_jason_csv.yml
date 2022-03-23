@@ -1,1 +1,28 @@
 ---
+- name: read testfile_json*.csv
+  read_csv:
+    path: "{{ item | replace(playbook_dir + '/', '') }}"
+  register: _res
+  with_fileglob:
+    - "files/testfile_json*.csv"
+
+- name: debug read_csv
+  debug:
+    msg: "{{ _res }}"
+
+- name: set fact
+  set_fact:
+    edate_time: "{{ _res.results | map(attribute='list') | flatten }}"
+
+- name: debug edate_time
+  debug:
+    msg: "{{ edate_time }}"
+
+- name: set current datetime
+  set_fact:
+    _current: "{{ lookup('pipe', 'date --date \"13 hours\" +%s') }}"
+    _now: "{{ lookup('pipe', 'date --date \"13 hours\" \"+%Y/%m/%d %H:%M\"') }}"
+
+- name: debug current time
+  debug:
+    msg: "{{ _now }}" : {{ _current }}"
